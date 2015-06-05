@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body ng-app="meanApp" ng-controller="usersController">
+
+    <h1>MEAN App</h1>
+
+    <div>
+        <input type="text" ng-model="userName" placeholder="Enter User Name">
+        <button ng-click="addUser()">Add User</button>
+    </div><br>
+
+    <div>
+        <input type="text" ng-model="newUserName">
+        <button ng-click="changeUserName(newUserName)">Edit User</button>
+    </div><br>
+
+    <table>
+        <tr>
+            <th>Count</th>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <tr ng-repeat="user in users">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ user.name }}</td>
+            <td><button ng-click="editUser(user)">Edit</button></td>
+            <td><button ng-click="deleteUser(user)">Delete</button></td>
+        </tr>
+    </table>
+
+    <script src="/js/bower_components/angularjs/angular.min.js"></script>
+    <script src="/js/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="/js/userController.js"></script>
+</body>
+</html>
