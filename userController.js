@@ -4,12 +4,11 @@
 
 var app = angular.module('meanApp', ['ngResource']);
 
-app.controller('usersController', ['$scope', '$resource', function($scope, $resource) {
+app.controller('usersController', ['$scope', '$resource', 'userService', function($scope, $resource, userService) {
 
-    var users = $resource('/users');
 
     $scope.getUsers = function () {
-        users.query(function(users) {
+        userService.query(function(users) {
             $scope.users = users;
         });
     };
@@ -17,37 +16,30 @@ app.controller('usersController', ['$scope', '$resource', function($scope, $reso
     $scope.getUsers();
 
     $scope.addUser = function() {
-        var user = new users();
-        user.name = $scope.userName;
+        var user = new userService();
+        user.name = $scope.newUserName;
         user.$save(function (user) {
             $scope.getUsers();
+            $scope.newUserName = '';
         });
-        $scope.userName = '';
     };
     
     $scope.deleteUser = function (user) {
-        var User = $resource('/users/:name', {name:'@name'});
-
-        var user = User.delete({name:user.name}, function(res) {
+        var user = userService.delete({userId : user._id}, function(res) {
             $scope.getUsers();
         });
     };
     
     $scope.editUser = function (user) {
         $scope.user = user;
-        $scope.newUserName = user.name;
+        $scope.editUserName = user.name;
     };
 
-    $scope.changeUserName = function (newUserName) {
-        var updateUser = $resource('users/:name', {name : '@name'}, {
-            update : {
-                method : 'PUT'
-            }
-        });
-        updateUser.update({name : $scope.user.name}, {name : newUserName}, function (res) {
+    $scope.changeUserName = function (editUserName) {
+        userService.update({userId : $scope.user._id}, {name : editUserName}, function (res) {
             $scope.getUsers();
-            $scope.newUserName = '';
+            $scope.editUserName = '';
         });
-    }
+    };
 
 }]);

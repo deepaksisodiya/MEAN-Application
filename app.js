@@ -6,13 +6,13 @@ var express = require('express'),
     _ = require('underscore'),
     bodyParser = require('body-parser'),
     app = express(),
-
     mongoClient = require('mongodb').MongoClient,
     url = 'mongodb://localhost:27017/MEAN_App',
     port = 3000,
-    _db;
+    _db,
+    ObjectId = require('mongodb').ObjectID,
+    path = require('path');
 
-var path = require('path');
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, "/index.html"));
@@ -46,10 +46,10 @@ app.get('/users', function(req, res) {
 });
 
 
-app.get('/users/:name', function(req, res) {
-    var name = req.params.name;
+app.get('/users/:userId', function(req, res) {
+    var userId = req.params.userId;
     var users = _db.collection('users');
-    users.find({ 'name' : name }).toArray(function(err, user) {
+    users.find({"_id": new ObjectId(userId)}).toArray(function(err, user) {
         res.send(user);
     });
 });
@@ -64,20 +64,20 @@ app.post('/users', function(req, res) {
 });
 
 
-app.put('/users/:name', function(req, res) {
-    var name = req.params.name,
+app.put('/users/:userId', function(req, res) {
+    var userId = req.params.userId,
         newName = req.body.name;
     var users = _db.collection('users');
-    users.updateOne({ 'name' : name }, { 'name' : newName }, function (err, user) {
+    users.updateOne({"_id": new ObjectId(userId)}, { 'name' : newName }, function (err, user) {
         res.send(user);
     })
 });
 
 
-app.delete('/users/:name', function(req, res) {
-    var name = req.params.name;
+app.delete('/users/:userId', function(req, res) {
+    var userId = req.params.userId;
     var users = _db.collection('users');
-    users.removeOne({'name' : name}, function (err, user) {
+    users.removeOne({"_id": new ObjectId(userId)}, function (err, user) {
         res.send(user);
     });
 });

@@ -16,13 +16,13 @@
     <h1>MEAN App</h1>
 
     <div>
-        <input type="text" ng-model="userName" placeholder="Enter User Name">
+        <input type="text" ng-model="newUserName" placeholder="Enter User Name">
         <button ng-click="addUser()">Add User</button>
     </div><br>
 
     <div>
-        <input type="text" ng-model="newUserName">
-        <button ng-click="changeUserName(newUserName)">Edit User</button>
+        <input type="text" ng-model="editUserName">
+        <button ng-click="changeUserName(editUserName)">Edit User</button>
     </div><br>
 
     <table>
@@ -42,6 +42,7 @@
 
     <script src="/js/bower_components/angularjs/angular.min.js"></script>
     <script src="/js/bower_components/angular-resource/angular-resource.min.js"></script>
-    <script type="text/javascript" src="/js/userController.js"></script>
+    <script src="/js/userController.js"></script>
+    <script src="/js/userService.js"></script>
 </body>
 </html>
